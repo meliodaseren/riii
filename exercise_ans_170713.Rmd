@@ -5,7 +5,7 @@ date: "2017年03月28日"
 output: html_document
 ---
 
-##page72
+##p72
 ```{R}
 nine_nine = function(){
   mat = matrix(rep(1,9^2),nrow = 9)
