@@ -4,7 +4,8 @@ author: "York Lin"
 date: "2017年07月13日"
 output: html_document
 ---
-##Flow Control
+
+## Flow Control
 ```{R}
 
 x=5;
@@ -63,7 +64,7 @@ for(i in seq_len(nrow(mat))) {
 }
 ```
 
-##Function
+## Function
 ```{R}
 f = function(a){
     print(a+3)
@@ -91,7 +92,7 @@ f4 = function(a,b){
 }
 ```
 
-##lapply sapply apply tapply
+## lapply sapply apply tapply
 ```{R}
 x = list(c(1,2,3,4), c(5,6,7,8))
 lapply(x, sum)
@@ -131,7 +132,7 @@ tapply(iris$Sepal.Length, iris$Species, mean)
 ```
 
 # 探索性資料分析
-##表格
+## 表格
 ```{R}
 #import data
 getwd()
@@ -175,7 +176,7 @@ str(cdc)
 
 ```
 
-##統計量
+## 統計量
 mean or median? - https://udn.com/news/story/10560/2091550
 ```{R}
 #集中量數:mean median mode
@@ -271,7 +272,7 @@ cor(gdp$Export, gdp$GDP)
 ```
 
 
-##統計圖
+## 統計圖
 ```{R}
 #屬貭資料: 長條圖、圓餅圖
 barplot(table(cdc$smoke100))
