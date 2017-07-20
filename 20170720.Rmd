@@ -195,7 +195,7 @@ load('Statistics/applenews.RData')
 str(applenews)
 head(applenews)
 
-# install.packages('dplyr')
+install.packages('dplyr')
 library(dplyr)
 
 # 原先R 提供的過濾功能
