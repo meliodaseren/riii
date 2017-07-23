@@ -8,8 +8,8 @@ output: html_document
 ## Flow Control
 ```{R}
 
-x=5;
-if(x>3){
+x = 5;
+if(x > 3){
   print
   ("x > 3");
 }else{
@@ -17,29 +17,29 @@ if(x>3){
   ("x <= 3");
 }
 
-if(x>3) print("x>3") else print("x<=3")
+if(x > 3) print("x > 3") else print("x <= 3")
 
 test = ifelse(x>3,"x > 3","x <= 3")
 test
 
-x=5;
-if(x>3){
+x = 5;
+if(x > 3){
   print ("x > 3");
-} else if (x ==3){
+} else if (x == 3){
   print ("x == 3");
-}else{
+} else {
   print
   ("x <= 3");
 }
 
-switch(2,print("aaa"),print("bbb"),print("ccc"))
-switch("third",first=print("aaa"),second=print("bbb"),third=print("ccc"))
+switch(2, print("aaa"), print("bbb"), print("ccc"))
+switch("third", first=print("aaa"), second=print("bbb"), third=print("ccc"))
 
 for(i in 1:10){
   print(i);
 }
 
-sum=0
+sum = 0
 for(i in 1:100){
   sum= sum+ i;
 }
@@ -134,7 +134,7 @@ tapply(iris$Sepal.Length, iris$Species, mean)
 # 探索性資料分析
 ## 表格
 ```{R}
-#import data
+# import data
 getwd()
 setwd("~/lecture/riii")
 load("Statistics/cdc.Rdata")
@@ -144,31 +144,31 @@ str(cdc)
 head(cdc)
 names(cdc)
 
-#轉換資料類型
+# 轉換資料類型
 cdc$exerany = as.factor(cdc$exerany)
 cdc$hlthplan = as.factor(cdc$hlthplan)
 cdc$smoke100 = as.factor(cdc$smoke100)
 
 str(cdc)
 
-#一維次數分配表
+# 一維次數分配表
 table(cdc$exerany)
 
-#相對比例
+# 相對比例
 table(cdc$exerany) / length(cdc$exerany)
 
-#二維次數分配表
+# 二維次數分配表
 table(cdc$gender,cdc$exerany)
 
-#連續型資料作表
+# 連續型資料作表
 table(cdc$height)
 summary(cdc$height)
 cut(cdc$height,seq(45,95,by=5))
 
-#包含上界不包含下界
+# 包含上界不包含下界
 table(cut(cdc$height,seq(45,95,by=5),right=T))
 
-#包含下界不包含上界
+# 包含下界不包含上界
 table(cut(cdc$height,seq(45,95,by=5),right=F)) 
 table(cut(cdc$height,seq(45,95,by=5),right=F,labels=seq(1,length(seq(45,95,by=5))-1)))
 cdc$h_group = cut(cdc$height,seq(45,95,by=5),right=F)
@@ -179,13 +179,13 @@ str(cdc)
 ## 統計量
 mean or median? - https://udn.com/news/story/10560/2091550
 ```{R}
-#集中量數:mean median mode
+# 集中量數:mean median mode
 
 a = c(100,120,130,110,100,90,80,90,100,110)
 sum(a) / 10
 mean(a)
 
-#有極端值
+# 有極端值
 b = c(a, 10000)
 mean(b)
 
@@ -204,7 +204,7 @@ mean(cdc$weight)
 median(cdc$weight)
 names(which.max(table(cdc$h_group)))
 
-#離差量數:range IQR variance stardard deviation
+# 離差量數:range IQR variance stardard deviation
 
 a = c(173,162,150,160,155,168,171,185,175,178,182)
 sort(a)
@@ -225,45 +225,45 @@ range(b)
 IQR(b)
 boxplot(b,horizontal = T)
 
-#全距
+# 全距
 range(cdc$weight)
-#四分位距
+# 四分位距
 IQR(cdc$weight)
-#變異數
+# 變異數
 var(cdc$weight)
-#標準差
+# 標準差
 sqrt(var(cdc$weight))
 sd(cdc$weight)
-#摘要數據
+# 摘要數據
 summary(cdc$weight)
 ```
 
-##Covariance & Correlation
+## Covariance & Correlation
 ```{R}
 x = c(160,170,180)
 y = c(64, 68, 72)
 
-#計算共變異數
+# 計算共變異數
 cov_xy = sum((x - mean(x)) * (y - mean(y))) / 2
 cov_xy
 
 cov(x,y)
 
-#計算相關係數
+# 計算相關係數
 cor_xy = cov(x,y) / (sd(x) * sd(y))  
 cor_xy
 
 cor(x,y)
 plot(x,y)
 
-#example1:
+# example1:
 data(mtcars)
 mtcars
 cov(mtcars)
 cor(mtcars)
 cov(mtcars[1:3])
 
-#example2:
+# example2:
 gdp = read.csv("data/gdp.csv",header=TRUE)
 gdp = gdp[1:15,]
 gdp$GDP = as.numeric(sub(",", "", gdp$GDP))
@@ -274,7 +274,7 @@ cor(gdp$Export, gdp$GDP)
 
 ## 統計圖
 ```{R}
-#屬貭資料: 長條圖、圓餅圖
+# 屬貭資料: 長條圖、圓餅圖
 barplot(table(cdc$smoke100))
 ?barplot
 barplot(table(cdc$smoke100),xlab='有無吸菸',ylab='人數',main='title',col='blue')
@@ -283,7 +283,7 @@ pie(table(cdc$smoke100))
 pie(table(cdc$genhlth))
 pie(table(cdc$genhlth),col = rainbow(5))
 
-#加上各分類比例
+# 加上各分類比例
 pct = round(table(cdc$genhlth) / length(cdc$genhlth) *100,1)
 labels = paste(names(pct),pct,"%")
 pie(table(cdc$genhlth), labels = labels)
@@ -293,7 +293,7 @@ gender_smokers = table(cdc$gender,cdc$smoke100)
 
 mosaicplot(gender_smokers)
 
-#屬量資料: 直方圖、盒鬚圖、莖葉圖
+# 屬量資料: 直方圖、盒鬚圖、莖葉圖
 hist(cdc$age)
 
 par(mfrow=c(3,1))
@@ -316,7 +316,7 @@ boxplot(cdc$height ~ cdc$gender)
 bmi = (cdc$weight/cdc$height^2) * 703
 boxplot(bmi ~ cdc$genhlth)
 
-#觀察兩組資料間關係:點散布圖
+# 觀察兩組資料間關係:點散布圖
 plot(cdc$weight, cdc$height)
 plot(cdc$weight, cdc$wtdesire)
 
@@ -341,8 +341,8 @@ why ggplot2?
 - consistent across all kinds of plot in syntax and behavior
 - strong support community(the mostly download package on CRAN)
 ```{R}
-#basic syntax
-#ggplot(data,aes(x,y,group,...))+geom_object(...)
+# basic syntax
+# ggplot(data,aes(x,y,group,...))+geom_object(...)
 install.packages('ggplot2')
 library('ggplot2')
 g <- ggplot(cdc,aes(x=height,y=weight))
@@ -351,13 +351,13 @@ g+geom_point(aes(col=exerany))
 g <- ggplot(cdc,aes(x=genhlth))
 g+geom_bar()
 g+geom_bar() + ylab('Count') + ggtitle('cdc')
-#fill => 填滿顏色; color => 邊線顏色
+# fill => 填滿顏色; color => 邊線顏色
 g+geom_bar(fill='snow',color='black')
 
 g <- ggplot(cdc,aes(x=genhlth,fill=gender))
 g+geom_bar()
-#g <- ggplot(cdc,aes(x=genhlth))
-#g+geom_bar(aes(fill=gender))
+# g <- ggplot(cdc,aes(x=genhlth))
+# g+geom_bar(aes(fill=gender))
 
 g_bygrp <- ggplot(cdc,aes(x=exerany,fill=genhlth))
 g_bygrp + geom_bar()
@@ -373,7 +373,7 @@ ggplot(precounted,aes(x=genhlth,y=Freq))+ geom_bar(stat='identity')
 g <- ggplot(cdc,aes(x=genhlth,y=height))
 g + geom_boxplot()
 
-#facet
+# facet
 g <- ggplot(cdc,aes(x=weight))
 g2 = g+ geom_histogram()+facet_wrap(~genhlth)
 

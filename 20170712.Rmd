@@ -20,10 +20,10 @@ Kaggle
 UCI dataset
 - https://archive.ics.uci.edu/ml/datasets.html
 
-##R intro
+## R intro
 Functional Programming
 ```{r, echo=TRUE}
-x=1:5
+x = 1:5
 sum(x) 
 mean(x)
 var(x)
@@ -43,17 +43,17 @@ sqrt(16)
 
 ## RDemo
 ```{r RDemo, echo=TRUE}
-#使用範例資料
+# 使用範例資料
 data(anscombe)
-#使用資料中x1,y1變數畫出點散布圖
+# 使用資料中x1,y1變數畫出點散布圖
 plot(y1 ~ x1, data = anscombe)
-#建立回歸模型並assign到lmfit變數中
+# 建立回歸模型並assign到lmfit變數中
 lmfit <- lm(y1~x1, data=anscombe) 
-#在點散佈圖上加上迴歸線
+# 在點散佈圖上加上迴歸線
 abline(lmfit, col="red")
 ```
 
-##Basic type
+## Basic type
 - numeric: 1,2,1.2
 - integer: 1L,2L,3L
 - character: "string"
@@ -72,49 +72,49 @@ recursive:
 - dataframe
 - list
 
-##R basic command
+## R basic command
 ```{R}
-#文件查詢
+# 文件查詢
 help(package="base")
 ?base::sum
 ?sum
 help.search("sum")
 ??sum
 
-#範例演釋
+# 範例演釋
 demo()
-#使用內建資料集
+# 使用內建資料集
 data()
-#看現有變數
+# 看現有變數
 ls()
-#移除變數
+# 移除變數
 rm()
-#查看資料型態
+# 查看資料型態
 # difference between class, typeof, and mode
-#http://stackoverflow.com/questions/6258004/r-types-and-classes-of-variables
+# http://stackoverflow.com/questions/6258004/r-types-and-classes-of-variables
 class()
 typeof()
 mode()
-#查看資料結構
+# 查看資料結構
 str()
 
 str(c(1,2,3))
 ```
 
-##Basic computing
+## Basic computing
 ```{R, echo=TRUE}
-3+8
-3-8
-3*8
-3/8
-1/0
-11%%2
-3<4
-2==5
+3 + 8
+3 - 8
+3 * 8
+3 / 8
+1 / 0
+11 %% 2
+3 < 4
+2 == 5
 T == TRUE
 ```
 
-##Assignment
+## Assignment
 ```{R}
 a = 3
 a <- 5 # ( alt + - )
@@ -125,18 +125,18 @@ a = a / 2
 
 ```
 
-##Vector
+## Vector
 - R語言最基本的物件
 ```{R, echo=TRUE}
 character(5)  ## character vector of length 5
 numeric(5)
 logical(5)
 x = c(1,2,3,7)
-y= c(2,3,5,1)
-x+y
-x*y
-x-y
-x/y
+y = c(2,3,5,1)
+x + y
+x * y
+x - y
+x / y
 
 x = c(1,2,3,7)
 x + 10
@@ -168,14 +168,14 @@ height_vec / 100
 height_vec > 175 | height_vec < 170
 height_vec < 175 & height_vec > 170
 
-#R 的index從1開始
-height_vec[c(1)] #index
-height_vec['Brian'] #element name
-height_vec[height_vec > 175] #condition (boolean vector)
+# R 的index從1開始
+height_vec[c(1)] # index
+height_vec['Brian'] # element name
+height_vec[height_vec > 175] # condition (boolean vector)
 
 ```
 
-##seq() & rep() & paste()
+## seq() & rep() & paste()
 ```{R, echo=TRUE}
 1:20
 seq(1,20)
@@ -203,7 +203,7 @@ paste(c("big","bang"),1:2,collapse = "+" )
 length(paste(c("big","bang"),1:4,collapse = "+" ))
 ```
 
-##Matrix
+## Matrix
 ```{R}
 matrix(1:9, byrow=TRUE, nrow=3)
 matrix(1:9, nrow=3)
@@ -215,28 +215,28 @@ colnames(mat) = c('first', 'second')
 rownames(mat) = c('kevin', 'marry', 'jerry')
 mat
 
-#取得矩陣維度
+# 取得矩陣維度
 dim(mat)
-#取得矩陣列數
+# 取得矩陣列數
 nrow(mat)
-#取得矩陣欄數
+# 取得矩陣欄數
 ncol(mat)
-#矩陣轉置(transpose)
+# 矩陣轉置(transpose)
 t(mat)
 
-#取第一列
+# 取第一列
 mat[1,]
-#取第一行
+# 取第一行
 mat[,1]
-#取第一、二列
+# 取第一、二列
 mat[1:2,]
 
-#取kevin和jerry成績
+# 取kevin和jerry成績
 mat[c('kevin','jerry'),]
-#取kevin和jerry成績的第一次考試成績
+# 取kevin和jerry成績的第一次考試成績
 mat[c('kevin','jerry'),'first']
 
-#取得第一次考試成績不及格的人
+# 取得第一次考試成績不及格的人
 mat[,'first']
 
 rowSums(mat)
@@ -245,7 +245,7 @@ colSums(mat)
 rowMeans(mat)
 colMeans(mat)
 
-#新增列與行
+# 新增列與行
 mat2 = rbind(mat, c(78,63))
 rownames(mat2)[nrow(mat2)] = 'sam'
 mat2
@@ -271,7 +271,7 @@ m1 %*% m2
 
 ```
 
-##Factor
+## Factor
 ```{R}
 # syntax
 weather= c("sunny","rainy", "cloudy", "rainy", "cloudy")
@@ -293,7 +293,7 @@ levels(weather_factor) = c("cloudy","rainy","sunny")
 weather_factor
 ```
 
-##Dataframe
+## Dataframe
 ```{R}
 name <- c("Joe", "Bob", "Vicky")
 age <- c(28, 26, 34)
@@ -306,60 +306,60 @@ str(df)
 data(iris)
 head(iris)
 tail(iris)
-tail(iris, 10)
+tail(iris,10)
 str(iris)
 
-#取前三列資料
+# 取前三列資料
 iris[1:3,]
-#取前三列第一行的資料
+# 取前三列第一行的資料
 iris[1:3,1]
-#取前三列Sepal.Length欄位的資料
+# 取前三列Sepal.Length欄位的資料
 iris[1:3,"Sepal.Length"]
 head(iris[,1:2])
 iris$"Sepal.Length"[1:3]
 
-#取前五筆包含length 及 width 的資料
+# 取前五筆包含length 及 width 的資料
 Five.Sepal.iris = iris[1:5, c("Sepal.Length","Sepal.Width")]
-#可以用條件做篩選
+# 可以用條件做篩選
 setosa.data = iris[iris$Species=="setosa",1:5]
 str(setosa.data)
 
-#使用which 做資料篩選
+# 使用which 做資料篩選
 which(iris$Species=="setosa")
 
-#merge進行資料合併
+# merge進行資料合併
 flower.type = data.frame(Species = "setosa", Flower = "iris")
 merge(flower.type, iris[1:3,], by ="Species")
 
 df1 = data.frame(CustomerId = c(1:6), Product = c(rep("Toaster", 3), rep("Radio", 3)))
 df2 = data.frame(CustomerId = c(2, 4, 6), State = c(rep("Alabama", 2), rep("Ohio", 1)))
 
-#Inner join:
+# Inner join:
 merge(x = df1, y= df2, by="CustomerId")
 
-#Outer join: 
+# Outer join: 
 merge(x = df1, y = df2, by = "CustomerId", all = TRUE)
 
-#Left outer: 
+# Left outer: 
 merge(x = df1, y = df2, by = "CustomerId", all.x = TRUE)
 
-#Right outer: 
+# Right outer: 
 merge(x = df1, y = df2, by = "CustomerId", all.y = TRUE)
 
-#Cross join: 
+# Cross join: 
 merge(x = df1, y = df2, by = NULL)
 
-#用order做資料排序
+# 用order做資料排序
 iris[order(iris$Sepal.Length, decreasing = TRUE),]
 
 sort(iris$Sepal.Length, decreasing = TRUE)
 
-#資料轉換
+# 資料轉換
 iris$Species_new = ifelse(iris$Species %in% c("setosa"), "IsSetosa","Notsetosa")
 
 ```
 
-##File read and write
+## File read and write
 ```{R}
 getwd()
 setwd("C:/Users/BigData/Desktop")
@@ -367,14 +367,14 @@ tw2330 = read.csv("2330.csv", header=TRUE)
 
 test.data = read.table("data/match.txt" ,header = FALSE, sep="|")
 
-#table
+# table
 write.table(test.data, file = "data/test.txt" , sep = " ")
-#csv
+# csv
 write.csv(test.data, file = "data/test.csv")
 
 ```
 
-##List
+## List
 ```{R}
 item = list(thing="hat", size=8.25)
 item

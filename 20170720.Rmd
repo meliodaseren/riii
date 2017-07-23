@@ -293,7 +293,7 @@ pie(cat_stat$clicked_sum, label = cat_stat$category)
 ```
 
 ```{r}
-#連接資料庫範例(以sqlite3為例)
+# 連接資料庫範例(以sqlite3為例)
 # sqlite3 download page: https://www.sqlite.org/download.html
 install.packages('dbplyr')
 install.packages('RSQLite')
@@ -336,13 +336,13 @@ str(churnTrain)
 
 names(churnTrain) %in% c("state", "area_code", "account_length")
 !names(churnTrain) %in% c("state", "area_code", "account_length")
-#選擇建模變數
+# 選擇建模變數
 variable.list = !names(churnTrain) %in% c('state','area_code','account_length')
 churnTrain=churnTrain[,variable.list]
 
 str(churnTrain)
 
-#sample
+# sample
 ?sample
 sample(1:10)
 sample(1:10, size = 5)
@@ -351,7 +351,7 @@ sample.int(20, 12) # 兩個參數都要放整數，此例為取1:20中的12個�
 
 
 set.seed(2)
-#把資料分成training data 和 testing data
+# 把資料分成training data 和 testing data
 ind<-sample(1:2, size=nrow(churnTrain), replace=T, prob=c(0.7, 0.3))
 trainset=churnTrain[ind==1,]
 testset=churnTrain[ind==2,]
@@ -374,7 +374,7 @@ a[ind == 0]
 ```{R}
 install.packages('rpart')
 library('rpart')
-#使用rpart(CART)建立決策樹模型
+# 使用rpart(CART)建立決策樹模型
 
 churn.rp<-rpart(churn ~ ., data=trainset)
 churn.rp
@@ -384,7 +384,7 @@ con = rpart.control(cp=0.01)
 ?rpart.control
 churn.rp<-rpart(churn ~., data=trainset,control = con)
 
-#畫出決策樹
+# 畫出決策樹
 par(mfrow=c(1,1))
 plot(churn.rp, margin=0.1)
 plot(churn.rp, uniform=TRUE,branch = 0.6, margin=0.1)
@@ -399,11 +399,11 @@ plotcp(churn.rp)
 ## Prune
 
 ```{R}
-#找出minimum cross-validation errors
+# 找出minimum cross-validation errors
 min(churn.rp$cptable[,"xerror"])
 which.min(churn.rp$cptable[,"xerror"])
 churn.cp = churn.rp$cptable[which.min(churn.rp$cptable[,"xerror"]), "CP"]
-#將churn.cp設為臨界值來修剪樹
+# 將churn.cp設為臨界值來修剪樹
 prune.tree=prune(churn.rp, cp=churn.cp)
 
 plot(prune.tree, margin=0.1)
