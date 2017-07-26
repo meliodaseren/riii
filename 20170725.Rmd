@@ -5,6 +5,7 @@ date: "2017年7月25日"
 output: html_document
 ---
 
+
 ## Learning map
 - http://scikit-learn.org/stable/_static/ml_map.png
 
@@ -12,8 +13,9 @@ output: html_document
 
 - http://mp.weixin.qq.com/s?__biz=MjM5ODczNTkwMA==&mid=2650107069&idx=1&sn=44a2eab6c4858c56af236749fdd1d784#rd
 
+
 # Classification
-## Decision Tree - using churn data in C50 packages
+## Decision Tree - using churn data in C50 package
 ```{R}
 # install.packages("C50")
 library(C50)
@@ -60,6 +62,7 @@ a[ind == 0]
 
 ```
 
+
 ## rpart
 ```{R}
 # install.packages('rpart')
@@ -95,7 +98,6 @@ fancyRpartPlot(churn.rp)
 
 
 ## Prune
-
 ```{R}
 # 找出minimum cross-validation errors
 min(churn.rp$cptable[,"xerror"])
@@ -120,6 +122,7 @@ confusionMatrix(table(predictions, testset$churn))
 
 ```
 
+
 ## ctree
 ```{R}
 # install.packages("party")
@@ -135,6 +138,7 @@ table(ctree.predict, testset$churn)
 
 confusionMatrix(table(ctree.predict, testset$churn))
 ```
+
 
 ## C5.0
 ```{R}
@@ -156,6 +160,7 @@ table(c50.predict, testset$churn)
 confusionMatrix(table(c50.predict, testset$churn))
 ```
 
+
 ## Estimating model performance with k-fold cross-validation
 ```{R}
 ind = cut(1:nrow(churnTrain), breaks=10, labels=F)
@@ -173,6 +178,7 @@ mean(accuracies)
 
 ```
 
+
 ## caret cross-validation
 ```{R}
 # install.packages("caret")
@@ -184,6 +190,7 @@ predictions = predict(model, testset)
 
 table(predictions,testset$churn)
 ```
+
 
 ## find importance variable
 ```{R}
@@ -228,7 +235,7 @@ plot(perf.tpr.rocr,
 ```
 
 
-# model comparison
+## model comparison
 ```{R}
 # rpart
 library('rpart')
