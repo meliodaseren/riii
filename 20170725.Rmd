@@ -74,7 +74,7 @@ a[ind == 0]
 ```
 
 
-## rpart
+## rpart(CART)
 https://c3h3notes.wordpress.com/2010/10/25/r%E4%B8%8A%E7%9A%84cart-package-rpart-%E5%8F%83%E6%95%B8%E7%AF%87/
 
 ```{R}
@@ -85,14 +85,14 @@ library('rpart')
 churn.rp <- rpart(churn ~ ., data=trainset)
 # summary(churn.rp)
 
-con = rpart.control(cp=0.01)
+con = rpart.control(cp=0.01)  # cp 成本複雜度
 churn.rp <- rpart(churn ~ ., data=trainset, control = con)
 ```
 
+### plot.rpart
 http://newtomaso.blogspot.tw/2015/02/par-in-r-rpar.html
 
 ```{R}
-# 畫出決策樹
 ?plot.rpart
 
 # Set Or Query Graphical Parameters
@@ -118,6 +118,10 @@ fancyRpartPlot(churn.rp)
 ```
 
 ## Prune
+Confusion Matrix
+https://blog.argcv.com/articles/1036.c
+http://www.cnblogs.com/bluepoint2009/archive/2012/09/18/precision-recall-f_measures.html
+
 ```{R}
 # 找出minimum cross-validation errors
 min(churn.rp$cptable[,"xerror"])
@@ -130,7 +134,7 @@ prune.tree = prune(churn.rp, cp=churn.cp)
 plot(prune.tree, margin=0.1)
 text(prune.tree, all=TRUE, use.n=TRUE, cex=0.7)
 
-predictions <- predict(prune.tree, testset,type = "class")
+predictions <- predict(prune.tree, testset, type = "class")
 table(testset$churn, predictions)
 
 # install.packages('caret')
@@ -139,11 +143,10 @@ library('caret')
 library('e1071')
 confusionMatrix(table(predictions, testset$churn))
 ?confusionMatrix
-
 ```
 
 
-## ctree
+## Ctree
 ```{R}
 # install.packages("party")
 library('party')
@@ -195,7 +198,6 @@ for (i in 1:10) {
 }
 # accuracies
 mean(accuracies)
-
 ```
 
 
@@ -218,7 +220,6 @@ library('caret')
 importance = varImp(model, scale=FALSE)
 importance
 plot(importance)
-
 ```
 
 ```{r}
@@ -240,10 +241,12 @@ mgraph(L, graph="IMP", leg=names(trainset), col="gray", Grid=10)
 ```{R}
 # install.packages("ROCR")
 library(ROCR)
-predictions <-predict(churn.rp, testset, type="prob")
+predictions <- predict(churn.rp, testset, type="prob")
 head(predictions)
+
 pred.to.roc <- predictions[, 1]
 head(pred.to.roc)
+
 pred.rocr <- prediction(pred.to.roc, testset$churn)
 # pred.rocr
 perf.rocr <- performance(pred.rocr, measure ="auc", x.measure="cutoff")
@@ -253,7 +256,7 @@ perf.tpr.rocr <- performance(pred.rocr, "tpr","fpr")
 
 plot(perf.tpr.rocr,
      colorize=T,
-     main=paste("AUC:",(perf.rocr@y.values)))
+     main=paste("AUC:", (perf.rocr@y.values)))
 ```
 
 
@@ -264,7 +267,7 @@ library('rpart')
 churn.rp<-rpart(churn ~., data=trainset)
 
 # ctree
-install.packages("party")
+# install.packages("party")
 library('party')
 ctree.model = ctree(churn ~ . , data = trainset)
 
