@@ -1,6 +1,8 @@
 ---
 title: "R Final Test"
-output: html_notebook
+output:
+  html_document: default
+  html_notebook: default
 ---
 
 ## class: BB102
@@ -9,24 +11,19 @@ output: html_notebook
 ```{r}
 #(1) 請讀取final資料夾下的lvr_prices_big5.RData檔案 [5分]
 
-getwd()
-setwd("D:/RStudioWD/riii")
 load("./final/lvr_prices_big5.RData")
-
 ```
 
 ```{r}
 #(2) 請問可使用哪個函式觀看檔案的資料結構？[5分]
 
 str(lvr_prices)
-
 ```
 
 ```{r}
 #(3) 請問可使用哪個函式觀看資料前10筆資料？[5分]
 
 head(lvr_prices, 10)
-
 ```
 
 ```{r}
@@ -41,7 +38,7 @@ house = lvr_prices[which(lvr_prices$city_land_type == "住" &
                          lvr_prices$total_price > 0 &
                          lvr_prices$building_sqmeter > 0 &
                          c(lvr_prices$finish_ymd) != 1), ]
-
+# 48374 obs
 ```
 
 ```{r}
@@ -51,15 +48,14 @@ house = lvr_prices[which(lvr_prices$city_land_type == "住" &
 price_per_sqmeter = round(house$total_price / house$building_sqmeter)
 
 house$price_per_sqmeter = c(price_per_sqmeter)
-
 ```
 
 ```{r}
-#(6) 請使用house資料，利用scale() 將每平方米價格(price_per_sqmeter)欄位資料標準化
-#    ，並剔除掉outlier資料(z-score > 3)。[5分]
+#(6) 請使用house資料，利用scale()將每平方米價格(price_per_sqmeter)欄位資料標準化，
+#    並剔除掉outlier資料(z-score > 3)。[5分]
 
 house = house[abs(scale(house$price_per_sqmeter)) <= 3,]
-
+# 48336 obs.
 ```
 
 ```{r}
@@ -69,19 +65,19 @@ table(house$area)
 
 barplot(table(house$area))
 
+library(ggplot2)
+
+ggplot(aes(x = area), data = house) + 
+  geom_bar()
 ```
 
 ```{r}
 #(8) 請使用house資料，計算各行政區每平方米價格(price_per_sqmeter)欄位資料的平均數，中位數及標準差 [8分]
 
-paste("平均數", mean(house$price_per_sqmeter))
-paste("中位數", median(house$price_per_sqmeter))
-paste("標準差", sqrt(var(house$price_per_sqmeter)))
-
-summary(house$price_per_sqmeter)
-
-tapply(house$price_per_sqmeter,house$area,function(e){list('mean'=mean(e),'median'=median(e),'sd'=sd(e))})
-
+tapply(house$price_per_sqmeter, house$area,
+       function(e){list('mean'=mean(e),
+                        'median'=median(e),
+                        'sd'=sd(e))})
 ```
 
 ```{r}
@@ -91,10 +87,7 @@ library(ggplot2)
 
 ggplot(aes(x = price_per_sqmeter), data = house) + 
   geom_histogram(color = 'black', fill = '#099DD9') + 
-  facet_wrap(~area) + 
-  xlab('price_per_sqmeter') + 
-  ylab('Area')
-
+  facet_wrap(~area)
 ```
 
 ```{r}
@@ -106,7 +99,6 @@ ggplot(aes(x = price_per_sqmeter), data = house) +
 building_age = as.integer(round((Sys.Date() - as.Date(house$finish_ymd)) / 365))
 
 house$building_age = c(building_age)
-
 ```
 
 ```{r}
@@ -117,7 +109,6 @@ house$building_age = c(building_age)
 load("./final/house_danger.RData")
 
 house <- merge(x = house, y = house_danger, all.x = TRUE)
-
 ```
 
 ```{r}
@@ -126,10 +117,11 @@ house <- merge(x = house, y = house_danger, all.x = TRUE)
 #     將測試集資料存在testset變數中。 [5分]
 
 set.seed(1206)
-ind <- sample(1:2, size=nrow(house), replace=T, prob=c(0.7, 0.3))
-trainset = house[ind==1,]
-testset = house[ind==2,]
-
+house_sample <- sample(1:2, size=nrow(house), replace=T, prob=c(0.8, 0.2))
+trainset = house[house_sample==1,]
+testset = house[house_sample==2,]
+# trainset 38531 obs.
+# testset   9805 obs.
 ```
 
 ```{r}
@@ -141,33 +133,42 @@ testset = house[ind==2,]
 library(rpart)
 
 # 使用rpart(CART)建立決策樹模型
-house.rp <- rpart(danger ~ area + building_age + building_sqmeter + building_type + price_per_sqmeter,
+house.rp <- rpart(danger ~ area + building_age + building_sqmeter + 
+                           building_type + price_per_sqmeter,
                   data = trainset,
                   method = "class")
 
-summary(house.rp)
+# summary(house.rp)
 ```
 
 ```{r}
 #(14) 請利用plot()和text()畫出house.rp模型的決策樹 [5分]
 
-par(mfrow = c(1,1))
-plot(house.rp, margin=0.1)
-plot(house.rp, uniform=TRUE,branch = 0.6, margin=0.1)
+plot(house.rp, uniform=TRUE)
 text(house.rp)
-text(house.rp, all=TRUE, use.n=TRUE)
 
 library(rattle)
 library(rpart.plot)
 library(RColorBrewer)
-fancyRpartPlot(house.rp)
-
+fancyRpartPlot(house.rp, uniform=TRUE)
 ```
 
 ```{r}
-#(15) 請問此決策數是否需要進行剪枝(prune)？
+#(15) 請問此決策樹是否需要進行剪枝(prune)？
 #     如需剪枝請將修剪後的模型存回house.rp中。 [5分]
 
+" 此決策樹不需要進行剪枝(prune) "
+
+# minimum cross-validation errors
+min(house.rp$cptable[,"xerror"])
+which.min(house.rp$cptable[,"xerror"])
+house.cp = house.rp$cptable[which.min(house.rp$cptable[,"xerror"]), "CP"]
+
+# 將house.cp設為臨界值來修剪樹
+house.rp = prune(house.rp, cp=house.cp)
+
+plot(house.rp, uniform=TRUE)
+text(house.rp)
 ```
 
 ```{r}
