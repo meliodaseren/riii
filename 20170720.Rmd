@@ -264,7 +264,7 @@ applenews %>%
 # 多個欄位計算
 applenews %>%
   group_by(category) %>% 
-  summarise_at(.vars=vars(clicked),.funs=funs(sum,mean))
+  summarise_at(.vars=vars(clicked), .funs=funs(sum,mean))
 
 applenews %>%
   group_by(category) %>%
@@ -325,6 +325,7 @@ g + geom_bar(stat='identity') + theme(text=element_text(size=16,  family="Songti
 
 - http://mp.weixin.qq.com/s?__biz=MjM5ODczNTkwMA==&mid=2650107069&idx=1&sn=44a2eab6c4858c56af236749fdd1d784#rd
 
+
 # Classification
 ## Decision Tree - using churn data in C50 package
 ```{R}
@@ -352,9 +353,9 @@ sample.int(20, 12) # 兩個參數都要放整數，此例為取1:20中的12個�
 
 set.seed(2)
 # 把資料分成training data 和 testing data
-ind<-sample(1:2, size=nrow(churnTrain), replace=T, prob=c(0.7, 0.3))
-trainset=churnTrain[ind==1,]
-testset=churnTrain[ind==2,]
+ind <- sample(1:2, size=nrow(churnTrain), replace=T, prob=c(0.7, 0.3))
+trainset = churnTrain[ind==1,]
+testset = churnTrain[ind==2,]
 
 
 table(sample(x = 1:2,size = 100, replace=T))
@@ -372,11 +373,11 @@ a[ind == 0]
 
 ## rpart
 ```{R}
-install.packages('rpart')
+# install.packages('rpart')
 library('rpart')
 # 使用rpart(CART)建立決策樹模型
 
-churn.rp<-rpart(churn ~ ., data=trainset)
+churn.rp <- rpart(churn ~ ., data=trainset)
 churn.rp
 summary(churn.rp)
 
@@ -418,7 +419,6 @@ library('caret')
 library('e1071')
 confusionMatrix(table(predictions, testset$churn))
 ?confusionMatrix
-
 ```
 
 ## ctree

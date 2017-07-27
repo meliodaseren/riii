@@ -343,16 +343,17 @@ why ggplot2?
 ```{R}
 # basic syntax
 # ggplot(data,aes(x,y,group,...))+geom_object(...)
-install.packages('ggplot2')
+
+# install.packages('ggplot2')
 library('ggplot2')
 g <- ggplot(cdc,aes(x=height,y=weight))
-g+geom_point(aes(col=exerany))
+g + geom_point(aes(col=exerany))
 
 g <- ggplot(cdc,aes(x=genhlth))
-g+geom_bar()
-g+geom_bar() + ylab('Count') + ggtitle('cdc')
+g + geom_bar()
+g + geom_bar() + ylab('Count') + ggtitle('cdc')
 # fill => 填滿顏色; color => 邊線顏色
-g+geom_bar(fill='snow',color='black')
+g + geom_bar(fill='snow',color='black')
 
 g <- ggplot(cdc,aes(x=genhlth,fill=gender))
 g+geom_bar()
@@ -368,14 +369,14 @@ g_bygrp + geom_bar(position='identity')
 
 precounted = as.data.frame(table(cdc$genhlth,dnn = c('genhlth')))
 precounted
-ggplot(precounted,aes(x=genhlth,y=Freq))+ geom_bar(stat='identity')
+ggplot(precounted,aes(x=genhlth,y=Freq)) + geom_bar(stat='identity')
 
 g <- ggplot(cdc,aes(x=genhlth,y=height))
 g + geom_boxplot()
 
 # facet
 g <- ggplot(cdc,aes(x=weight))
-g2 = g+ geom_histogram()+facet_wrap(~genhlth)
+g2 = g + geom_histogram() + facet_wrap(~genhlth)
 
 ggsave(filename='your_file_name.png',plot = g2)
 ```
