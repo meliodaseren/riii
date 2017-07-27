@@ -5,7 +5,7 @@ date: "2017/7/27"
 output: html_document
 ---
 
-## 如何得知pca後的變數成分
+## 如何得知PCA(主成分分析)後的變數成分
 ```{r}
 customer=read.csv('data/customer.csv',header=TRUE)
 customer_s =scale(customer[,-1])
@@ -13,7 +13,7 @@ customer_s =scale(customer[,-1])
 library(cluster)
 clusplot(customer_s, fit$cluster, color=TRUE, shade=TRUE)
 
-#了解component 成分為何
+# 了解component 成分為何
 pca =princomp(customer_s)
 pca$loadings
 
@@ -21,17 +21,24 @@ pca$loadings
 
 
 ## 如何用ggplot2繪製分群後各群特徵
+https://www.r-bloggers.com/bot-botany-k-means-and-ggplot2/
+https://stackoverflow.com/questions/23297765/how-to-plot-multiple-barplots-of-kmeans-centroids-in-r
+http://seananderson.ca/2013/10/19/reshape.html
+
 ```{r}
-fit =kmeans(customer_s, centers=4)
-#以graphics套件繪製
+fit = kmeans(customer_s, centers=4)
+# 以graphics套件繪製
 barplot(t(fit$centers), beside =TRUE,xlab="cluster", ylab="value")
 
-#以ggplot2套件繪製
+# 以ggplot2套件繪製
 
 fit$centers
 class(fit$centers)
+
+# 轉換為data frame並新增欄位
 df = as.data.frame(fit$centers)
 df$cluster = c(1,2,3,4)
+
 library('reshape2')
 df.m = melt(df,id.vars = 'cluster')
 g = ggplot(df.m, aes(cluster, value))   

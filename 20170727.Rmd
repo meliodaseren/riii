@@ -76,25 +76,16 @@ rect.hclust(hc, k = 4 , which =4, border="red")
 ```
 
 # k-means
-https://www.r-bloggers.com/bot-botany-k-means-and-ggplot2/
 ```{R}
 str(customer_s)
 set.seed(22)
 fit = kmeans(customer_s, centers=4)
 ?kmeans
 
-barplot(t(fit$centers), beside =TRUE, xlab="cluster", ylab="value")
+barplot(t(fit$centers), beside = TRUE, xlab="cluster", ylab="value")
 ?barplot
 fit$centers
-
-ggplot(data=fit$centers, aes(x=Petal.Length, y=Petal.Width, color=cluster )) + 
-  geom_bar(stat="identity")
-  # geom_point() + 
-  # geom_point(data=centers, aes(x=V1,y=V2, color=’Center’)) +
-  # geom_point(data=centers, aes(x=V1,y=V2, color=’Center’), size=52, alpha=.3, legend=FALSE)
-
 ```
-
 
 ```{R}
 # install.packages("cluster")
@@ -145,12 +136,14 @@ cluster.stats(dist(customer_s), kmeans(customer_s, centers=2)$cluster)
 
 WSS =sapply(nk, function(k){set.seed(22);cluster.stats(dist(customer_s), kmeans(customer_s, centers=k)$cluster)$within.cluster.ss})
 WSS
+
 plot(x=nk, y=WSS, type="l", xlab="number of k", ylab="within sum of squares")
 ```
 
 ```{R}
 nk=2:10
-SW =sapply(nk, function(k){set.seed(22);cluster.stats(dist(customer_s), kmeans(customer_s, centers=k)$cluster)$avg.silwidth})
+SW = sapply(nk, function(k) {set.seed(22);
+  cluster.stats(dist(customer_s), kmeans(customer_s, centers=k)$cluster)$avg.silwidth})
 
 plot(x=nk, y=SW, type="l", xlab="number of clusers", ylab="average silhouette width")
 
@@ -171,10 +164,10 @@ km =kmeans(customer_s, 4)
 cs=cluster.stats(dist(customer_s),km$cluster)
 cs[c("within.cluster.ss","avg.silwidth")]
 
-q =sapply(
-  list(kmeans=km$cluster, 
-       hc_single=hc_single, 
-       hc_complete=hc_complete), function(c)cluster.stats(dist(customer_s),c)[c("within.cluster.ss","avg.silwidth")])
+q =sapply(list(kmeans=km$cluster, 
+               hc_single=hc_single, 
+               hc_complete=hc_complete),
+          function(c)cluster.stats(dist(customer_s),c)[c("within.cluster.ss","avg.silwidth")])
 q
 
 ```
