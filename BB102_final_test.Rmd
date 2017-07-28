@@ -5,9 +5,6 @@ output:
   html_notebook: default
 ---
 
-## class: BB102
-## name: 黃約綸
-
 ```{r}
 #(1) 請讀取final資料夾下的lvr_prices_big5.RData檔案 [5分]
 
