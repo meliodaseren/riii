@@ -81,9 +81,16 @@ https://c3h3notes.wordpress.com/2010/10/25/r%E4%B8%8A%E7%9A%84cart-package-rpart
 # install.packages('rpart')
 library('rpart')
 
+<<<<<<< HEAD:20170725.Rmd
 # 使用rpart(CART)建立決策樹模型
 churn.rp <- rpart(churn ~ ., data=trainset)
 # summary(churn.rp)
+=======
+churn.rp<-rpart(churn ~ ., data=trainset)
+#churn.rp<-rpart(churn ~ total_day_charge + #international_plan, data=trainset)
+churn.rp
+summary(churn.rp)
+>>>>>>> 818279985187caa7316f2cb18e17e100df2164aa:history/20170725.Rmd
 
 con = rpart.control(cp=0.01)  # cp 成本複雜度
 churn.rp <- rpart(churn ~ ., data=trainset, control = con)
@@ -94,6 +101,7 @@ http://newtomaso.blogspot.tw/2015/02/par-in-r-rpar.html
 
 ```{R}
 ?plot.rpart
+<<<<<<< HEAD:20170725.Rmd
 
 # Set Or Query Graphical Parameters
 par(mfrow = c(1,1))
@@ -105,6 +113,10 @@ plot(churn.rp, uniform=TRUE, branch = 0.6, margin=0.1)
 
 # text(churn.rp)
 text(churn.rp, all=TRUE, use.n=TRUE)
+=======
+text(churn.rp)
+text(churn.rp, all=TRUE, use.n=TRUE, cex=0.7)
+>>>>>>> 818279985187caa7316f2cb18e17e100df2164aa:history/20170725.Rmd
 
 printcp(churn.rp)
 plotcp(churn.rp)
@@ -134,8 +146,13 @@ prune.tree = prune(churn.rp, cp=churn.cp)
 plot(prune.tree, margin=0.1)
 text(prune.tree, all=TRUE, use.n=TRUE, cex=0.7)
 
+<<<<<<< HEAD:20170725.Rmd
 predictions <- predict(prune.tree, testset, type = "class")
 table(testset$churn, predictions)
+=======
+predictions <-predict(prune.tree, testset,type='class')
+table(predictions,testset$churn)
+>>>>>>> 818279985187caa7316f2cb18e17e100df2164aa:history/20170725.Rmd
 
 # install.packages('caret')
 # install.packages('e1071')
@@ -246,6 +263,7 @@ head(predictions)
 
 pred.to.roc <- predictions[, 1]
 head(pred.to.roc)
+<<<<<<< HEAD:20170725.Rmd
 
 pred.rocr <- prediction(pred.to.roc, testset$churn)
 # pred.rocr
@@ -257,6 +275,13 @@ perf.tpr.rocr <- performance(pred.rocr, "tpr","fpr")
 plot(perf.tpr.rocr,
      colorize=T,
      main=paste("AUC:", (perf.rocr@y.values)))
+=======
+pred.rocr<-prediction(pred.to.roc, testset$churn)
+pred.rocr
+perf.rocr<-performance(pred.rocr, measure ="auc", x.measure="cutoff")
+perf.tpr.rocr<-performance(pred.rocr, "tpr","fpr")
+plot(perf.tpr.rocr,main=paste("AUC:",(perf.rocr@y.values)))
+>>>>>>> 818279985187caa7316f2cb18e17e100df2164aa:history/20170725.Rmd
 ```
 
 

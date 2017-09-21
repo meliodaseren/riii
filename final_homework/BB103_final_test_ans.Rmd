@@ -64,7 +64,7 @@ g+geom_histogram()+facet_wrap(~area) + theme(text=element_text(size=16,  family=
 #hint2: 一年請以365天計算，四捨五入至整數位
 #hint3: 將運算完的資料轉為整數型態(integer) [8分]
 house$finish_ymd = as.Date(house$finish_ymd)
-house$building_age = as.integer( (Sys.Date() - house$finish_ymd ) / 365)
+house$building_age = round( (Sys.Date() - house$finish_ymd ) / 365)
 ```
 
 ```{r}
